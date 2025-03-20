@@ -1,9 +1,5 @@
 package net.Jobb;
 
-// NamnListor.java
-
-
-
 import java.util.ArrayList;
 
 public class NamnListor {
@@ -32,13 +28,18 @@ public class NamnListor {
     // 🔹 Söker efter en person baserat på namn, personnummer eller kundnummer
     public void sokPerson(String input) {
         ArrayList<String> resultat = new ArrayList<>();
-        String inputLower = input.toLowerCase(); // 🔹 Gör sökningen skiftlägesokänslig
+        String inputRensat = input.trim().toLowerCase().replace("#", ""); // 🔹 Tar bort mellanslag & #
 
         for (String[] person : personer) {
-            // 🔹 Jämför input med förnamn, efternamn eller kundnummer
-            if (person[0].toLowerCase().equals(inputLower) ||
-                    person[1].toLowerCase().equals(inputLower) ||
-                    person[3].equalsIgnoreCase(input)) {
+            // 🔹 Ta bort mellanslag och # från kundnummer för att sökningen ska fungera smidigt
+            String kundnummerRensat = person[3].replace("#", "").trim();
+
+            // 🔹 Jämför input med förnamn, efternamn, personnummer eller kundnummer
+            if (person[0].toLowerCase().equals(inputRensat) ||  // Förnamn
+                    person[1].toLowerCase().equals(inputRensat) ||  // Efternamn
+                    person[2].trim().equals(input.trim()) ||       // Personnummer
+                    kundnummerRensat.equals(inputRensat)) {        // Kundnummer (utan #)
+
                 // 🔹 Skapa en sträng med PersonID och lägg till i listan
                 resultat.add(person[0] + " " + person[1] + " - " + person[2] + " - " + person[3]);
             }
